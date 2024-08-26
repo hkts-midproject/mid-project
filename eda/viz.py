@@ -11,10 +11,6 @@ from statsmodels.tools.tools import add_constant
 import time
 
 
-with st.spinner('Wait for it...'):
-    time.sleep(5)
-st.success("Done!")
-
 columns_to_plot = ['Assets', 'Liabilities', 'Principal_Interest', 'Spend_Consum', 'Spend_NonConsum']
 
 def outlierChart(total_df, columns_to_plot, num_columns=3):

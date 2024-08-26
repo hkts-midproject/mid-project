@@ -5,6 +5,8 @@ from streamlit_option_menu import option_menu
 from home import run_home
 from utils import load_data
 from eda.eda_home import run_eda
+from invest.invest_home import invest_run
+from income.income_home import income_run
 
 def main():
     total_df = load_data()
@@ -16,9 +18,9 @@ def main():
     elif selected == "EDA":
         run_eda(total_df)
     elif selected == "ML Model - 소득 분위 예측":
-        pass
+        income_run(total_df)
     elif selected == "ML Model - 고객 투자 성향 분석":
-        pass
+        invest_run()
     else:
         print("error..")
         

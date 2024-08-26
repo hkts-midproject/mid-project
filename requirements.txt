@@ -1,6 +1,6 @@
 sktime
 pmdarima
-pandas
+pandas==2.2.2
 matplotlib
 seaborn
 plotly
@@ -17,3 +17,5 @@ streamlit-option-menu
 millify
 pingouin
 jupyterlab
+statsmodels 
+xgboost==1.6.1
