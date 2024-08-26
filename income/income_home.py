@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from streamlit_option_menu import option_menu
+from PIL import Image
 
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tools.tools import add_constant
@@ -28,6 +29,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 from xgboost import XGBClassifier
 from sklearn.ensemble import RandomForestClassifier
+from collections import Counter
+import plotly.express as px
+from imblearn.under_sampling import TomekLinks, RandomUnderSampler
+from imblearn.over_sampling import SMOTE, RandomOverSampler
+from imblearn.pipeline import Pipeline, make_pipeline
+from imblearn.combine import SMOTETomek
+from xgboost import XGBClassifier
 
 
 def income_run(total_df): 
@@ -179,6 +187,7 @@ def income_run(total_df):
     '''
 
     with tab4: 
+
         st.markdown("### 소득분위 예측 모델링")
         st.markdown("#### ")
 
@@ -286,7 +295,7 @@ def income_run(total_df):
 
 
         # XGBoost 모델
-        from xgboost import XGBClassifier
+        st.write("XGBoost 모델")
 
         xg_x1 , xg_x2 , xg_y1 , xg_y2 = train_test_split(
             x,
@@ -328,6 +337,7 @@ def income_run(total_df):
 
 
         # Random Forest 모델
+        st.write("RandomForest 모델")
         rfc_x1, rfc_x2, rfc_y1, rfc_y2 = train_test_split(x, y, test_size=0.3, random_state=42)
 
         rfc_x1, rfc_x2 = scale(rfc_x1, rfc_x2)
@@ -371,11 +381,54 @@ def income_run(total_df):
                         'n_estimators': 200
                       } ''')
 
-                      
+        # Random Forest 모델 + undersampling / oversampling
+        st.write("Random Forest 모델 + undersampling / oversampling")
+        kf = StratifiedKFold(n_splits=5, shuffle=False)
+        test_rfc = RandomForestClassifier(n_estimators=200, random_state=42)
+
+        ros = RandomOverSampler(random_state=42)
+        rus = RandomUnderSampler(random_state=42)
+        smote = SMOTE(random_state=42)
+        tomekU = TomekLinks()
+        smotomek = SMOTETomek(tomek=TomekLinks(sampling_strategy='majority'))
+
+        smote_x, smote_y = smotomek.fit_resample(xb1, yb1)
+        test_rfc.fit(smote_x, smote_y)
+
+        fig_smot, _ = evaluate_model(test_rfc, xb2, yb2, 'undersampler')
+
+        # Balanced_RandomForest 모델 
+        st.write("Balanced_RandomForest")
+        balanced_rfc = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
+        balanced_rfc.fit(xb1, yb1)
+
+        graph = evaluate_model(balanced_rfc, xb2, yb2, 'Balanced RFC')
+
+        rfc_opt_nosample = RandomForestClassifier(class_weight='balanced', criterion='entropy',
+                       min_samples_split=10, min_weight_fraction_leaf=0,
+                       n_estimators=200, random_state=42)
 
 
+        rfc_opt_nosample.fit(xb1, yb1)
+        opt_fig, _ = evaluate_model(rfc_opt_nosample, xb2, yb2, 'Optimized RFC')
+        st.write(cross_val_score(rfc_opt_nosample, smote_x, smote_y, cv=kf, scoring='roc_auc_ovr'))
 
-       
+
+        # LSTM 딥러닝 모델
+        st.write("Accuracy: 0.4267")
+        st.write("Precision: 0.4217")
+        st.write("Recall: 0.4267")
+        st.write("F1 Score")
+        st.write("ROC AUC Score: 0.8620")
+
+
+        img = Image.open('data\LSTM_img.png')
+        # 경로에 있는 이미지 파일을 통해 변수 저장
+        st.image(img)
+        # streamlit를 통해 이미지를 보여준다.
+
+        
+            
 
 
 

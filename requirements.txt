@@ -19,3 +19,4 @@ pingouin
 jupyterlab
 statsmodels 
 xgboost==1.6.1
+imblearn
