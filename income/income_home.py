@@ -286,8 +286,10 @@ def income_run(total_df):
         balanced_forest.fit(X_train, y_train)
         evaluate_model(balanced_forest, X_test, y_test, 'Balanced Random Forest')
 
+        '''
         # LSTM 모델 결과 시각화 (외부 이미지로 가정)
         st.markdown("#### LSTM 딥러닝 모델")
         img = Image.open('data/LSTM_img.png')
         st.image(img, caption='LSTM 모델 결과')
+        '''
     
