@@ -8,6 +8,13 @@ from eda.eda_home import run_eda
 from invest.invest_home import invest_run
 from income.income_home import income_run
 
+# Page configuration
+st.set_page_config(
+    page_title="고객 투자 성향 분석 Dashboard",
+    page_icon="📈",
+    layout="wide",
+    initial_sidebar_state="expanded")
+
 def main():
     total_df = load_data()
     with st.sidebar:
