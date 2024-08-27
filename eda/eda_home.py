@@ -17,7 +17,7 @@ def run_eda(total_df):
                 "👇👇👇 탐색적 자료분석 페이지입니다. 👇👇👇"
                 )
 
-    selected = option_menu(None, ["Home", "Visualization", "Statistics", "Map"],
+    selected = option_menu(None, ["Home", "Visualization", "Statistics", "Team 소개"],
                                 icons=['house', 'bar-chart', "file-spreadsheet", 'map'],
                                 menu_icon="cast", default_index=0, orientation="horizontal",
                                 styles={
@@ -36,7 +36,7 @@ def run_eda(total_df):
         showViz(total_df)
     elif selected == 'Statistics':
         st.title("Statistics")
-    elif selected == 'Map':
-        st.title("Map")
+    elif selected == 'Team 소개':
+        st.title("Team 소개")
     else:
         st.warning("Wrong")

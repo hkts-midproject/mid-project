@@ -21,3 +21,5 @@ statsmodels
 xgboost==1.6.1
 imblearn
 streamlit-survey
+altair
+statsmodels
