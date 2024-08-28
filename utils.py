@@ -9,3 +9,9 @@ def load_data():
     
 
     return data
+
+@st.cache_eda_data
+def load_eda_data():
+    eda = pd.read_csv('data/cleansed.csv')
+
+    return eda

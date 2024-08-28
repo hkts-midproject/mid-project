@@ -1,13 +1,13 @@
 # -*- coding:utf-8 -*-
 import pandas as pd
-from utils import load_data
+from utils import load_eda_data
 import streamlit as st
 from millify import prettify
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 def run_home():
-    total_df = load_data()
+    total_df = load_eda_data()
 
     st.markdown(">### 🚩 팀소개 \n"
     "#### 팀 명 : \n"

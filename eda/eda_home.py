@@ -6,13 +6,13 @@ from streamlit_option_menu import option_menu
 from eda.viz import showViz
 
 def home():
-    st.markdown("### Visualization 개요 \n"
+    st.markdown("### Preprocessing \n"
     "- **이상치 확인** \n"
     "- **이상치 제거** \n"
     "*** \n"
     )
     
-    st.markdown("### Statistics 개요 \n"
+    st.markdown("### Analytics \n"
     "- **비소비지출에 따른 소득금액 확인** \n"
     "- **소비지출에 따른 소득금액 확인** \n"
     "- **은퇴상태에 따른 소득금액 확인** \n"
@@ -25,7 +25,7 @@ def run_eda(total_df):
                 "👇👇👇 탐색적 자료분석 페이지입니다. 👇👇👇"
                 )
 
-    selected = option_menu(None, ["Contents", "Preprocessing", "Statistics"],
+    selected = option_menu(None, ["Contents", "Preprocessing", "Analytics"],
                                 icons=['map', 'bar-chart', "file-spreadsheet"],
                                 menu_icon="cast", default_index=0, orientation="horizontal",
                                 styles={
@@ -43,8 +43,8 @@ def run_eda(total_df):
     elif selected == 'Preprocessing':
         st.title("Preprocessing")
         showViz(total_df)
-    elif selected == 'Statistics':
-        st.title("Statistics")
+    elif selected == 'Analytics':
+        st.title("Analytics")
         showViz_2(total_df)
     else:
         st.warning("Wrong")
