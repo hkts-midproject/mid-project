@@ -14,10 +14,11 @@ from statsmodels.tools.tools import add_constant
 columns_to_plot = ['Assets', 'Liabilities', 'Principal_Interest', 'Spend_Consum', 'Spend_NonConsum']
 
 def outlierChart(total_df, columns_to_plot, num_columns=3):
-    st.markdown("**5개 컬럼에 대한 이상치 확인** \n"
-                "- 이 그래프들은 모두 극단적인 비대칭성을 보이며, 데이터가 매우 비대칭적으로 분포되어 있음을 나타냄.\n"
-                "- 대부분의 변수들이 낮은 값에 집중되어 있고, 극단적으로 높은 값들이 존재하여 왜도와 첨도가 매우 높음.\n"
-                "- 이러한 분포 특성은 데이터 분석과 모델링 시 이상치 처리가 필요하며, 분석 결과에 크게 영향을 미칠 수 있으므로 주의가 필요함."
+    st.markdown("#### **5개 컬럼에 대한 이상치 확인** \n"
+                "##### - 이 그래프들은 모두 극단적인 비대칭성을 보이며, 데이터가 매우 비대칭적으로 분포되어 있음을 나타냄.\n"
+                "##### - 대부분의 변수들이 낮은 값에 집중되어 있고, 극단적으로 높은 값들이 존재하여 왜도와 첨도가 매우 높음.\n"
+                "##### - 이러한 분포 특성은 데이터 분석과 모델링 시 이상치 처리가 필요하며, 분석 결과에 크게 영향을 미칠 수 있으므로 주의가 필요함.  \n"
+                "***  "
                 )
     # 행의 개수 설정
     num_rows = (len(columns_to_plot) + num_columns - 1) // num_columns
@@ -68,11 +69,13 @@ def outlierChart(total_df, columns_to_plot, num_columns=3):
 columns_to_check = ['Assets', 'Liabilities', 'Principal_Interest', 'Spend_Consum', 'Spend_NonConsum']
 
 def show_boxplot(total_df, columns_to_check):
-    st.markdown("**이상치 제거 결과** \n"
-                "- 원본 데이터 크기 : (18094, 26)\n"
-                "- 이상치 제거 후 데이터 크기 : (11939, 26)")
+    st.markdown("#### **이상치 제거 결과** \n"
+                "##### - 원본 데이터 크기 : (18094, 26)  \n"
+                "##### - 이상치 제거 후 데이터 크기 : (11939, 26)"  
+                "***  "
+                )
     # Boxplot 생성
-    plt.figure(figsize=(15, 8))
+    plt.figure(figsize=(13, 6))
     sns.boxplot(data=total_df[columns_to_check])
     plt.title('Boxplot of Selected Financial Columns Without Outliers')
     plt.xlabel('Columns')
