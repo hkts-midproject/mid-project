@@ -83,50 +83,12 @@ def show_boxplot(total_df, columns_to_check):
     st.pyplot(plt)
 
 
-def barChart(total_df):
-    st.markdown("**분석 방법**\n"
-                ">**다중공선성 확인**\n"
-                "- 이 데이터에서 대부분의 변수들은 다중공선성 문제가 심각하지 않으며, VIF 값이 1과 5 사이에 있어 허용 가능한 수치이다.\n"
-                "- VIF 값이 3을 초과하는 몇몇 변수들(Family_num, Master_Retired)은 주의 깊게 다뤄야 한다.\n"
-                " 다중공선성을 줄이기 위해 이 변수들을 제외하거나, 주성분 분석(PCA) 등 차원 축소 기법을 사용할 수 있음\n"
-                ">**데이터 분포도 확인**\n"
-                "- 예측하고자 하는 소득분위(1~10분위)를 기준으로 데이터의 분포도를 확인.\n"
-                "- PCA는 데이터의 전반적인 분포를 이해하고, 주성분이 데이터의 변동성을 어떻게 설명하는지 확인하는 데 유용하고\n"
-                "- t-SNE는 데이터의 클러스터링이나 국소적인 데이터 구조를 명확하게 드러내는 데 적합하기 때문에 두 가지의 분포도를 모두 확인\n"
-                )
-    # 다중공선성 분석을 위한 데이터프레임 설정 (타겟 변수를 제외한 독립 변수들만 사용)
-    X = total_df.drop('Income_code', axis=1)
-
-    # 상수항 추가 (VIF 계산을 위해 필요)
-    X = add_constant(X)
-
-    # VIF 계산
-    vif_data = pd.DataFrame()
-    vif_data["Feature"] = X.columns
-    vif_data["VIF"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
-    vf = vif_data['Feature'].drop(0)
-    vv = vif_data["VIF"].drop(0)
-    vif_data = pd.concat([vf, vv], axis=1)
-
-
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='Feature', y='VIF', data=vif_data)
-    plt.title('Variance Inflation Factor (VIF)')
-    plt.xticks(rotation=90)
-
-    # Streamlit에서 차트 표시
-    st.pyplot(plt)
-
 
 def showViz(total_df):
-    # total_df['DEAL_YMD'] = pd.to_datetime(total_df['DEAL_YMD'], format="%Y-%m-%d")
-    # sgg_nm = st.sidebar.selectbox("자치구명", sorted(total_df['SGG_NM'].unique()))
-    selected = st.sidebar.radio("차트 메뉴", ['이상치 확인', '이상치 제거', '분석방법'])
+    selected = st.sidebar.radio("차트 메뉴", ['이상치 확인', '이상치 제거'])
     if selected == "이상치 확인":
         outlierChart(total_df, columns_to_plot, num_columns=3)
     elif selected == "이상치 제거":
         show_boxplot(total_df, columns_to_check)
-    elif selected == "분석방법":
-        barChart(total_df)
     else:
         st.warning("Error")
