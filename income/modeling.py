@@ -8,63 +8,6 @@ from PIL import Image
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
-from xgboost import XGBClassifier
-from sklearn.ensemble import RandomForestClassifier
-from imblearn.under_sampling import TomekLinks
-from imblearn.combine import SMOTETomek
-from xgboost import XGBClassifier
-
-def evaluate_model(model, X_test, y_test, model_name):
-            y_pred = model.predict(X_test)
-            y_pred_prob = model.predict_proba(X_test)[:, 1]
-
-            accuracy = metrics.accuracy_score(y_test, y_pred)
-            precision = metrics.precision_score(y_test, y_pred, average='weighted')
-            recall = metrics.recall_score(y_test, y_pred, average='weighted')
-            f1 = metrics.f1_score(y_test, y_pred, average='weighted')
-            roc_auc = metrics.roc_auc_score(y_test, model.predict_proba(X_test), multi_class='ovr')
-
-            st.write(f'{model_name} 평가 지표:')
-            st.write(f'Accuracy: {accuracy:.4f}')
-            st.write(f'Precision (Weighted): {precision:.4f}')
-            st.write(f'Recall (Weighted): {recall:.4f}')
-            st.write(f'F1 Score (Weighted): {f1:.4f}')
-            st.write(f'ROC-AUC: {roc_auc:.4f}')
-
-            # 혼동 행렬 시각화
-            st.subheader(f'{model_name}')
-            cm = metrics.confusion_matrix(y_test, y_pred)
-            fig = plt.figure(figsize=(10, 8))
-            sns.heatmap(cm, annot=True, fmt="d", linewidths=.5, cmap='Greens', square=True, cbar=False)
-            plt.xlabel('Predicted Label')
-            plt.ylabel('True Label')
-            plt.title(f'{model_name} Confusion Matrixs')
-            st.pyplot(plt)
-            fig.savefig(f'{model_name}_cm.png')
-            # ROC Curve 시각화
-            st.subheader(f'{model_name} ROC Curve')
-            fpr, tpr, _ = metrics.roc_curve(y_test, y_pred_prob, pos_label=model.classes_[1])
-            
-            fig = plt.figure(figsize=(8, 6))
-            plt.plot(fpr, tpr, color='blue', label=f'ROC Curve (area = {roc_auc:.4f})')
-            plt.plot([0, 1], [0, 1], color='red', linestyle='--')
-            plt.xlabel('False Positive Rate')
-            plt.ylabel('True Positive Rate')
-            plt.title(f'{model_name} ROC Curve')
-            plt.legend(loc="lower right")
-            fig.savefig(f'{model_name}_roc.png')
-            st.pyplot(plt)
-
-            return pd.DataFrame([{
-                    'Model': model_name,
-                    'Accuracy': accuracy, 
-                    'Precision': precision, 
-                    'Recall': recall, 
-                    'F1 Score': f1, 
-                    'ROC-AUC': roc_auc
-                    }])
-
 
 
 
@@ -83,35 +26,47 @@ def modeling(total_df):
     columns = columns = ['Model', 'Accuracy', 'Precision', 'Recall', 'F1 Score', 'ROC-AUC']
     scores_df = pd.DataFrame(columns=columns)
 
+    st.subheader("다양한 모델을 사용하여 성능 비교")
+    st.markdown("""
+        먼저 여러가지 모델을 사용하여 성능을 비교해보기위해 회귀모델인 Logistic Regression, 앙상블 모델인 XGBoost, 그리고 Random Forest를 사용해보았다. 
+        결과는 아래와 같이 나왔다.         
+        """)
+
     with col1: 
         # Logistic Regression 모델
         st.markdown("#### Logistic Regression")
-        lr = LogisticRegression()
-        lr.fit(X_train, y_train)
-        lr_scores = evaluate_model(lr, X_test, y_test, 'Logistic Regression')
         
-        scores_df = pd.concat([scores_df, lr_scores], ignore_index=True)
+        lr_cm = Image.open('data\income\Logistic Regression_cm.png')
+        lr_roc = Image.open('data\income\Logistic Regression_roc.png')
+        st.image(lr_cm)
+        st.image(lr_roc)
+        
 
     with col2:
         # XGBoost 모델
         st.markdown("#### XGBoost")
-        xgb = XGBClassifier(n_estimators=1000, learning_rate=0.05, max_depth=3, eval_metric='mlogloss')
-        xgb.fit(X_train, y_train)
-        xgb_scores = evaluate_model(xgb, X_test, y_test, 'XGBoost')
-        scores_df = pd.concat([scores_df, xgb_scores], ignore_index=True)
+        
+        xg_cm = Image.open('data\income\XGBoost_cm.png')
+        xg_roc = Image.open('data\income\XGBoost_roc.png')
+        st.image(xg_cm)
+        st.image(xg_roc)
 
     with col3: 
         # Random Forest 모델
         st.markdown("#### Random Forest")
-        forest = RandomForestClassifier(n_estimators=200, random_state=42)
-        forest.fit(X_train, y_train)
-        rfc_scores = evaluate_model(forest, X_test, y_test, 'Basic Random Forest')
-        scores_df = pd.concat([scores_df, rfc_scores], ignore_index=True)
-    
-    scores_df.index = scores_df['Model']
-    st.write(scores_df)
-    scores_df.to_csv('data/income_model_scores.csv')
+        
+        rfc_cm = Image.open('data\income\Basic Random Forest_cm.png')
+        rfc_roc = Image.open('data\income\Basic Random Forest_roc.png')
+        st.image(rfc_cm)
+        st.image(rfc_roc)
 
+
+    scores_df = pd.read_csv('data\income\income_model_scores.csv')
+    st.write(scores_df)
+    
+    st.markdown("""
+        결과는 기본적으로 크게 
+    """)
     st.markdown("""
         **그래서 우리는 RFC를 쓰기로 했다... 어쩌구**
     """)
@@ -119,28 +74,28 @@ def modeling(total_df):
 
 
     rfccol1, rfccol2 = st.columns(2)
-    rfc_scores = pd.DataFrame(columns=columns)
+    rfc_scores = pd.read_csv('data\income\income_model_rfc_scores.csv')
 
     with rfccol1:
         # Sampling 적용한 Random Forest 모델
         st.markdown("#### Sampling data Random Forest")
-        rfc = RandomForestClassifier(n_estimators=200, random_state=42)
-        smote = SMOTETomek(tomek=TomekLinks(sampling_strategy='majority'))
-        X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
-        rfc.fit(X_resampled, y_resampled)
-        resampled_score = evaluate_model(forest, X_test, y_test, 'Random Forest with SMOTETomek Sampling')
-        rfc_scores = pd.concat([rfc_scores, resampled_score], ignore_index=True)
+         
+        smotek_rfc_cm = Image.open('data\income\Random Forest with SMOTETomek Sampling_cm.png')
+        smotek_rfc_roc = Image.open('data\income\Random Forest with SMOTETomek Sampling_roc.png')
+        st.image(smotek_rfc_cm)
+        st.image(smotek_rfc_roc)
 
     with rfccol2: 
         # Balanced Random Forest
         st.markdown("#### Balanced Random Forest")
-        balanced_forest = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
-        balanced_forest.fit(X_train, y_train)
-        balanced_score = evaluate_model(balanced_forest, X_test, y_test, 'Balanced Random Forest')
-        rfc_scores = pd.concat([rfc_scores, balanced_score], ignore_index=True)
+
+        brfc_cm = Image.open('data\income\Balanced Random Forest_cm.png')
+        brfc_roc = Image.open('data\income\Balanced Random Forest_roc.png')
+        st.image(brfc_cm)
+        st.image(brfc_roc)
 
     st.write(rfc_scores)
-    rfc_scores.to_csv('data/income_model_rfc_scores.csv')
+    
 
     st.markdown("""
         **그래서 우리는 그리드 서치를 했다...!!**
@@ -148,30 +103,50 @@ def modeling(total_df):
     """)
 
     rfcoptcol1, rfcoptcol2 = st.columns(2)
-    
-    optrfc_scores = pd.DataFrame(columns=columns)
+    optrfc_scores = pd.read_csv('data\income\income_model_opt_rfc_scores.csv')
+
     with rfcoptcol1:
         # Optimized RFC with sampling 
-        rfc_opt = RandomForestClassifier(class_weight='balanced', criterion='entropy',
-                        min_samples_split=10, min_weight_fraction_leaf=0,
-                        n_estimators=200, random_state=42)
+        st.markdown("#### Optimized RFC with sampling")
 
-        rfc_opt.fit(X_resampled, y_resampled)
-        optsmote_rfc_scores = evaluate_model(rfc_opt, X_test, y_test, 'Optimized RFC with SMOTE')
-        optrfc_scores = pd.concat([optrfc_scores, optsmote_rfc_scores], ignore_index=True)
+        opt_smote_rfc_cm = Image.open('data\income\Optimized RFC with SMOTE_cm.png')
+        opt_smote_rfc_roc = Image.open('data\income\Optimized RFC with SMOTE_roc.png')
+        st.image(opt_smote_rfc_cm)
+        st.image(opt_smote_rfc_roc)
 
     with rfcoptcol2:
-    # Optimized RFC without sampling
-        rfc_opt_nosample = RandomForestClassifier(class_weight='balanced', criterion='entropy',
-                        min_samples_split=10, min_weight_fraction_leaf=0,
-                        n_estimators=200, random_state=42)
 
-        rfc_opt_nosample.fit(X_train, y_train)
-        opt_nosample_scores = evaluate_model(rfc_opt_nosample, X_test, y_test, 'Optimized RFC')
-        optrfc_scores = pd.concat([optrfc_scores, opt_nosample_scores], ignore_index=True)
-    
+        # st.markdown("#### Optimized RFC without sampling")
+        st.markdown("#### Optimized RFC without sampling")
+        opt_rfc_cm = Image.open('data\income\Optimized RFC_cm.png')
+        opt_rfc_roc = Image.open('data\income\Optimized RFC_roc.png')
+        st.image(opt_rfc_cm)
+        st.image(opt_rfc_roc)
+
     st.write(optrfc_scores)
-    optrfc_scores.to_csv('data/income_model_opt_rfc_scores.csv')
+    
+    st.markdown("""----""")
+    st.subheader("3분위 분할 예측")
+    # Optimized RFC without sampling
+    tricol1, tricol2 = st.columns(2)
+
+    with tricol1: 
+         st.markdown("""
+                ``` Accuracy: 0.7909
+
+                    Precision (Weighted): 0.7992
+
+                    Recall (Weighted): 0.7909
+
+                    F1 Score (Weighted): 0.7940
+
+                    ROC-AUC: 0.9118
+            """)
+    with tricol2: 
+        tri_cm =  Image.open('data/income/trisect_income_cm.png')
+        tri_roc = Image.open('data/income/trisect_income_roc.png')
+        st.image(tri_cm)
+        st.image(tri_roc)
 
     st.markdown("""### 보너스 우리 LSTM도 해봤다!!""")
      # LSTM 모델 결과 시각화 (외부 이미지로 가정)
