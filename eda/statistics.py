@@ -67,7 +67,7 @@ def show_boxplot_retired(total_df, target_col):
 
 
 def showViz_2(total_df):
-    selected = st.sidebar.radio("차트 메뉴", ['비소비 지출에 따른 소득분위', '소비 지출에 따른 소득금액','은퇴상태에 따른 소득금액'])
+    selected = st.sidebar.radio("차트 메뉴", ['비소비 지출에 따른 소득금액', '소비 지출에 따른 소득금액','은퇴상태에 따른 소득금액'])
     if selected == "비소비 지출에 따른 소득금액":
         show_scatterplot_NonCon(total_df, target_col)
     elif selected == "소비 지출에 따른 소득금액":     
