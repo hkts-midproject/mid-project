@@ -36,8 +36,8 @@ def modeling(total_df):
         # Logistic Regression 모델
         st.markdown("#### Logistic Regression")
         
-        lr_cm = Image.open('data\income\Logistic Regression_cm.png')
-        lr_roc = Image.open('data\income\Logistic Regression_roc.png')
+        lr_cm = Image.open('data/income/Logistic Regression_cm.png')
+        lr_roc = Image.open('data/income/Logistic Regression_roc.png')
         st.image(lr_cm)
         st.image(lr_roc)
         
@@ -46,8 +46,8 @@ def modeling(total_df):
         # XGBoost 모델
         st.markdown("#### XGBoost")
         
-        xg_cm = Image.open('data\income\XGBoost_cm.png')
-        xg_roc = Image.open('data\income\XGBoost_roc.png')
+        xg_cm = Image.open('data/income/XGBoost_cm.png')
+        xg_roc = Image.open('data/income/XGBoost_roc.png')
         st.image(xg_cm)
         st.image(xg_roc)
 
@@ -55,13 +55,13 @@ def modeling(total_df):
         # Random Forest 모델
         st.markdown("#### Random Forest")
         
-        rfc_cm = Image.open('data\income\Basic Random Forest_cm.png')
-        rfc_roc = Image.open('data\income\Basic Random Forest_roc.png')
+        rfc_cm = Image.open('data/income/Basic Random Forest_cm.png')
+        rfc_roc = Image.open('data/income/Basic Random Forest_roc.png')
         st.image(rfc_cm)
         st.image(rfc_roc)
 
 
-    scores_df = pd.read_csv('data\income\income_model_scores.csv')
+    scores_df = pd.read_csv('data/income/income_model_scores.csv')
     st.write(scores_df)
     
     st.markdown("""
@@ -74,14 +74,14 @@ def modeling(total_df):
 
 
     rfccol1, rfccol2 = st.columns(2)
-    rfc_scores = pd.read_csv('data\income\income_model_rfc_scores.csv')
+    rfc_scores = pd.read_csv('data/income/income_model_rfc_scores.csv')
 
     with rfccol1:
         # Sampling 적용한 Random Forest 모델
         st.markdown("#### Sampling data Random Forest")
          
-        smotek_rfc_cm = Image.open('data\income\Random Forest with SMOTETomek Sampling_cm.png')
-        smotek_rfc_roc = Image.open('data\income\Random Forest with SMOTETomek Sampling_roc.png')
+        smotek_rfc_cm = Image.open('data/income/Random Forest with SMOTETomek Sampling_cm.png')
+        smotek_rfc_roc = Image.open('data/income/Random Forest with SMOTETomek Sampling_roc.png')
         st.image(smotek_rfc_cm)
         st.image(smotek_rfc_roc)
 
@@ -89,8 +89,8 @@ def modeling(total_df):
         # Balanced Random Forest
         st.markdown("#### Balanced Random Forest")
 
-        brfc_cm = Image.open('data\income\Balanced Random Forest_cm.png')
-        brfc_roc = Image.open('data\income\Balanced Random Forest_roc.png')
+        brfc_cm = Image.open('data/income/Balanced Random Forest_cm.png')
+        brfc_roc = Image.open('data/income/Balanced Random Forest_roc.png')
         st.image(brfc_cm)
         st.image(brfc_roc)
 
@@ -103,14 +103,14 @@ def modeling(total_df):
     """)
 
     rfcoptcol1, rfcoptcol2 = st.columns(2)
-    optrfc_scores = pd.read_csv('data\income\income_model_opt_rfc_scores.csv')
+    optrfc_scores = pd.read_csv('data/income/income_model_opt_rfc_scores.csv')
 
     with rfcoptcol1:
         # Optimized RFC with sampling 
         st.markdown("#### Optimized RFC with sampling")
 
-        opt_smote_rfc_cm = Image.open('data\income\Optimized RFC with SMOTE_cm.png')
-        opt_smote_rfc_roc = Image.open('data\income\Optimized RFC with SMOTE_roc.png')
+        opt_smote_rfc_cm = Image.open('data/income/Optimized RFC with SMOTE_cm.png')
+        opt_smote_rfc_roc = Image.open('data/income/Optimized RFC with SMOTE_roc.png')
         st.image(opt_smote_rfc_cm)
         st.image(opt_smote_rfc_roc)
 
@@ -118,8 +118,8 @@ def modeling(total_df):
 
         # st.markdown("#### Optimized RFC without sampling")
         st.markdown("#### Optimized RFC without sampling")
-        opt_rfc_cm = Image.open('data\income\Optimized RFC_cm.png')
-        opt_rfc_roc = Image.open('data\income\Optimized RFC_roc.png')
+        opt_rfc_cm = Image.open('data/income/Optimized RFC_cm.png')
+        opt_rfc_roc = Image.open('data/income/Optimized RFC_roc.png')
         st.image(opt_rfc_cm)
         st.image(opt_rfc_roc)
 
