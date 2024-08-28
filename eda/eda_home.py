@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+from eda.statistics import showViz_2
 import streamlit as st
 import pandas as pd
 from streamlit_option_menu import option_menu
@@ -24,11 +25,11 @@ def run_eda(total_df):
                 "👇👇👇 탐색적 자료분석 페이지입니다. 👇👇👇"
                 )
 
-    selected = option_menu(None, ["Contents", "Visualization", "Statistics"],
+    selected = option_menu(None, ["Contents", "Preprocessing", "Statistics"],
                                 icons=['map', 'bar-chart', "file-spreadsheet"],
                                 menu_icon="cast", default_index=0, orientation="horizontal",
                                 styles={
-                                    "container": {"padding": "0!important", "background-color": "#fafafa"}, #fafafa #6F92F7
+                                    "container": {"padding": "0!important", "background-color": "#fafafa"},
                                     "icon": {"color": "orange", "font-size": "18px"},
                                     "nav-link": {"font-size": "15px", "text-align": "left", "margin": "0px",
                                                  "--hover-color": "#eee"},
@@ -37,11 +38,13 @@ def run_eda(total_df):
                             )
 
     if selected == 'Contents':
+        st.title("Contents")
         home()
-    elif selected == 'Visualization':
-        # st.title("Visualization")
+    elif selected == 'Preprocessing':
+        st.title("Preprocessing")
         showViz(total_df)
     elif selected == 'Statistics':
         st.title("Statistics")
+        showViz_2(total_df)
     else:
         st.warning("Wrong")
