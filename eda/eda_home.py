@@ -21,8 +21,8 @@ def home():
     
 
 def run_eda(total_df):
-    st.markdown("## 탐색적 자료 분석 개요 \n"
-                "👇👇👇 탐색적 자료분석 페이지입니다. 👇👇👇"
+    st.markdown("## 🧬 탐색적 자료 분석 개요 🧬 \n"
+                
                 )
 
     selected = option_menu(None, ["Contents", "Preprocessing", "Analytics"],

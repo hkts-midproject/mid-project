@@ -10,7 +10,7 @@ def load_data():
 
     return data
 
-@st.cache_eda_data
+@st.cache_data
 def load_eda_data():
     eda_data = pd.read_csv('data/cleansed.csv')
 

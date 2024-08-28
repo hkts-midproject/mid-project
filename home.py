@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import pandas as pd
 from utils import load_eda_data
+from utils import load_data
 import streamlit as st
 from millify import prettify
 import seaborn as sns
