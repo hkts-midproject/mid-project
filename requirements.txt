@@ -4,7 +4,7 @@ pandas==2.2.2
 matplotlib
 seaborn
 plotly
-scikit-learn
+scikit-learn==1.3.2
 streamlit
 yfinance
 lightgbm
