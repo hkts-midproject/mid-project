@@ -72,7 +72,7 @@ def distribution(total_df):
         # t-SNE 분포 시각화
         st.subheader("t-SNE 2D Data Distribution")
         img = Image.open('data/t-SNE 2D.png')
-        st.image(img, caption='t-SNE 2D 결과')
+        st.image(img, caption='프로젝트 소개')
 
     st.subheader('⭐ 결론', divider='gray')
     st.markdown("""

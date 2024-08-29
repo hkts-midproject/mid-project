@@ -6,26 +6,36 @@ import streamlit as st
 from millify import prettify
 import seaborn as sns
 import matplotlib.pyplot as plt
+from PIL import Image
 
 def run_home():
     total_df = load_eda_data()
 
-    st.markdown(">### 🚩 팀소개 \n"
-    "#### 팀 명 : 잘 풀리는 집 🏡\n"
-    "#### 구성원 : \n"
-    "#### ⭐ 조장 - 박선애 \n"
-    "#### ⭐ 조원 - 신지민 / 오손빈 / 이유리 / 정명훈 \n"
-    "***  "
-    )
 
-
-
-    st.markdown(">### 📊 대시보드 및 웹앱 개요 \n"
+    # 프로젝트 주제
+    st.markdown(">### 📌 프로젝트 주제 \n"
                 
-                "##### **본 프로젝트는 '가계 금융복지조사 2023년' 데이터를 이용해 소비자 정보에 따른 소득 구간(금액별)을 모델링을 통하여 예측하고**  \n"
-                "##### **'고객 투자성향분석'을 통하여 '재무건강진단 웹앱'을 Streamlit으로 구현해보았습니다.**  \n"
-                "***  \n"
+                "##### **본 프로젝트는 '가계 금융복지조사 2023년' 데이터를 이용해 소비자 정보에 따른 소득 구간(금액별)을 예측하고**  \n"
+                "##### **'고객 투자성향분석'결과를 기반으로 '재무건강 진단 서비스'를 구현한 프로젝트입니다.**  \n"
                 )
+    img = Image.open('data/img/HAN_TOSS_MID_PROJECT.png')
+    url = "https://github.com/hkts-midproject/mid-project.git"
+    st.markdown("[![프로젝트 github](data/img/github-logo.png)](https://github.com/hkts-midproject/mid-project.git)")
+    
+    st.image(img, width=800)
+    
+    st.markdown("""---""")
+
+    # 팀 소개
+    st.markdown(">### 🚩 팀소개 \n")
+    st.markdown("#### 팀 명 : 잘 풀리는 집 🏡\n"
+    "#### 팀 원 : 이유리 / 오손빈 / 정명훈 / 신지민 / 박선애(팀장) \n"
+    )
+    img = Image.open('data/img/팀원소개.png')
+    st.image(img, width=700)
+
+    st.markdown("""---""")
+
 
     st.markdown(">### 📚 사용데이터\n"
                 "#### [가계금융복지조사(2023년 Data)](https://mdis.kostat.go.kr/ofrData/selectOfrDataDetail.do?survId=1005641&itmDiv=1&nPage=3&itemId=2005&itemNm=%EC%86%8C%EB%93%9D%C2%B7%EC%86%8C%EB%B9%84%C2%B7%EC%9E%90%EC%82%B0)\n"
