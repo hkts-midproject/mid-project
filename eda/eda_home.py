@@ -21,9 +21,8 @@ def home():
     
 
 def run_eda(total_df):
-    st.markdown("## 🧬 탐색적 자료 분석 개요 🧬 \n"
-                
-                )
+    st.markdown("## 🧬 탐색적 자료 분석 개요 🧬 \n")                           
+              
 
     selected = option_menu(None, ["Contents", "Preprocessing", "Analytics"],
                                 icons=['map', 'bar-chart', "file-spreadsheet"],
@@ -38,13 +37,19 @@ def run_eda(total_df):
                             )
 
     if selected == 'Contents':
-        st.title("Contents")
+        st.title("Contents  \n"
+                 "***   \n"
+                 )
         home()
     elif selected == 'Preprocessing':
-        st.title("Preprocessing")
+        st.title("Preprocessing  \n"
+                 "***  \n"
+                 )
         showViz(total_df)
     elif selected == 'Analytics':
-        st.title("Analytics")
+        st.title("Analytics  \n"
+                 "***  \n"
+                 )
         showViz_2(total_df)
     else:
         st.warning("Wrong")

@@ -71,8 +71,7 @@ columns_to_check = ['Assets', 'Liabilities', 'Principal_Interest', 'Spend_Consum
 def show_boxplot(total_df, columns_to_check):
     st.markdown("#### **이상치 제거 결과** \n"
                 "##### - 원본 데이터 크기 : (18094, 26)  \n"
-                "##### - 이상치 제거 후 데이터 크기 : (11939, 26)"  
-                "***  "
+                "##### - 이상치 제거 후 데이터 크기 : (11939, 26)  \n"  
                 )
     # Boxplot 생성
     plt.figure(figsize=(13, 6))
