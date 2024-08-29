@@ -3,8 +3,10 @@ import pandas as pd
 import streamlit_survey as ss
 import pickle
 import numpy as np
+from PIL import Image
+import os
 
-
+# 
 columns = [
  '가구원수',
  '자산',
@@ -73,7 +75,7 @@ code_columns = [
  '가구주_은퇴_적정생활비충당여부_4.0',
  '가구주_은퇴_적정생활비충당여부_5.0',]
 
-
+# 코드북 
 codebook = {
     '가구주연령_10세단위코드':   {
                         '30세 미만': 0,
@@ -123,6 +125,10 @@ categorical_columns = ['가구주_성별코드',
                        '가구주_은퇴_적정생활비충당여부']
 
 
+# encode_inputs의 결과 값(pred 값에 따른 이미지 출력)을 dialog 형태(모달창)로 출력하기
+# @st.dialog : encode_inputs 함수 자체를 dialog 형태로 출력하도록 하는 구문.
+@st.dialog("당신의 재무건강은?")
+
 def encode_inputs(data):
     col = {}
     for d in data:
@@ -161,9 +167,16 @@ def encode_inputs(data):
     gridsearch = pickle.load(open('data/trained_model.pkl', 'rb'))
     pred = gridsearch.predict(full_features)
 
-    st.write(pred)
+
+    # pred 값에 따른 이미지 표시
+    if pred in [0, 1, 2, 3, 4]:
+        p= pred[0]
+        image_path = f'data/img/{p}.png'  # 이미지 경로 설정
+        st.image(Image.open(image_path))
     
     
+
+# 설문조사 질문지 
 def survey_display():
     st.write(''' <style>
          
@@ -184,7 +197,8 @@ def survey_display():
          </style>
         ''', unsafe_allow_html=True)
     
-    st.markdown('### 고객 투자성향 분석 예측')
+    st.markdown('### ✔ 재무건강 상태 체크하기')
+    st.markdown('> 아래의 설문조사를 완료하시고 재무건강 상태를 체크해보세요!')
 
     survey = ss.StreamlitSurvey()
 
