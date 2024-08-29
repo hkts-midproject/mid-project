@@ -81,32 +81,32 @@ def cluster():
 
     with c1:
         st.markdown('cao-5')
-        cao5img = Image.open('data\invest\clustering\cao-5.png')
+        cao5img = Image.open('data/invest/clustering/cao-5.png')
         st.image(cao5img)
     with c2:
         st.markdown('**⭐cao-10⭐** 최종 선정 모델')
-        cao10img = Image.open('data\invest\clustering\cao-10.png')
+        cao10img = Image.open('data/invest/clustering/cao-10.png')
         st.image(cao10img)
     with c3:
         st.markdown('cao-15')
-        cao15img = Image.open('data\invest\clustering\cao-15.png')
+        cao15img = Image.open('data/invest/clustering/cao-15.png')
         st.image(cao15img)
     with c4:
         st.markdown('cao-20')
-        cao20img = Image.open('data\invest\clustering\cao-20.png')
+        cao20img = Image.open('data/invest/clustering/cao-20.png')
         st.image(cao20img)
     with c5:
         st.markdown('cao-30')
-        cao30img = Image.open('data\invest\clustering\cao-30.png')
+        cao30img = Image.open('data/invest/clustering/cao-30.png')
         st.image(cao30img)
 
     with h2:
         st.markdown('huang-10')
-        hua10img = Image.open('data\invest\clustering\huang-10.png')
+        hua10img = Image.open('data/invest/clustering/huang-10.png')
         st.image(hua10img)
     with h4:
         st.markdown('huang-25')
-        hua25img = Image.open('data\invest\clustering\huang-25.png')
+        hua25img = Image.open('data/invest/clustering/huang-25.png')
         st.image(hua25img)
     
     
