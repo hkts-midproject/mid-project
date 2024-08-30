@@ -28,7 +28,7 @@ def run_home():
     # url = "https://github.com/hkts-midproject/mid-project.git"
     # st.markdown("[![프로젝트 github](data/img/github-logo.png)](https://github.com/hkts-midproject/mid-project.git)")
     
-    st.image(img, width=800)
+    # st.image(img, width=800)
     
     st.markdown("""---""")
 
