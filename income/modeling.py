@@ -1,17 +1,9 @@
 
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from PIL import Image
 
-from sklearn import metrics
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-
-
-
-def modeling(total_df):
+def modeling():
     st.markdown("# 소득분위 예측 모델링")
     
     st.subheader("📌다양한 모델을 사용하여 성능 비교")
@@ -21,15 +13,6 @@ def modeling(total_df):
         """)
     col1, col2, col3 = st.columns(3)
     
-    X = total_df.drop('Income_code', axis=1)
-    y = total_df['Income_code'] - 1
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.3, random_state=42)
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
-
-
 
     
     columns =  ['Model', 'Accuracy', 'Precision', 'Recall', 'F1 Score', 'ROC-AUC']

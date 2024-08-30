@@ -24,9 +24,9 @@ def income_run(total_df):
 
     # 요인 분석
     with tab3:
-        factors(total_df)
+        factors()
 
     # 모델링
     with tab4:
-        modeling(total_df)
+        modeling()
     
