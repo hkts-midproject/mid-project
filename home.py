@@ -24,15 +24,6 @@ def run_home():
             """
             <a href="https://github.com/hkts-midproject/mid-project.git">
                 <img src="data:image/png;base64,{}" width="150"></a>
-                 <span style="font-style: italic ; 
-                    font-weight: bold; 
-                    font-size: 1.5em;
-                    line-height: 1.5em; 
-                    color: 	#0000FF;
-                    font-family: arial;
-                    ">
-                    👈Github를 방문하시려면 클릭해 주세요~
-                    </span>  
             """
                 .format( base64.b64encode(open("data/img/github-logo.png", "rb").read()).decode() ), unsafe_allow_html=True,
             )
