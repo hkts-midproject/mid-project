@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import streamlit_survey as ss
 import pickle
-import numpy as np
 from PIL import Image
-import os
 
 # 
 columns = [
@@ -44,7 +42,7 @@ intcols_num = [
     "지출_비소비지출_공적연금사회보험료(보완)",
 ]
 
-code_columns = [
+full_code_columns = [
  '가구주_성별코드_1',
  '가구주_성별코드_2',
  '가구주연령_10세단위코드_0',
@@ -115,6 +113,8 @@ codebook = {
                     },
     '원리금연체여부': {'예': 1.0, '아니오': 2.0}
 }
+
+
 categorical_columns = ['가구주_성별코드', 
                        '가구주연령_10세단위코드', 
                        '가구주_종사상지위(보도용)', 
@@ -125,33 +125,33 @@ categorical_columns = ['가구주_성별코드',
                        '가구주_은퇴_적정생활비충당여부']
 
 
-# encode_inputs의 결과 값(pred 값에 따른 이미지 출력)을 dialog 형태(모달창)로 출력하기
-# @st.dialog : encode_inputs 함수 자체를 dialog 형태로 출력하도록 하는 구문.
-@st.dialog("당신의 재무건강은?")
 
-def encode_inputs(data):
+def survey_json_to_df(json):
     col = {}
-    for d in data:
-        value = codebook.get(d, {}).get(data[d]['value'], data[d]['value'])
+    for d in json:
+        value = codebook.get(d, {}).get(json[d]['value'], json[d]['value'])
         col[d] = [value]
         
     df = pd.DataFrame.from_dict(col, orient='index').T
+    
     if df['가구주_은퇴여부'][0] == 2.0: 
         df['가구주_미은퇴_노후준비상황코드'] = None
     else:
         df['가구주_은퇴_적정생활비충당여부'] = None
     
-    # cat/num 으로 나눈다
-    # cat number type 정리
-    categories = df[categorical_columns]
-    numerics = df.drop(categorical_columns, axis=1)
-    
+    return df
+
+def process_categorical(categories):
     categories[intcols_cat] = categories[intcols_cat].astype(int)
 
     # cat을 one hot encoding
     categories = pd.get_dummies(categories, columns=categorical_columns, sparse=False )    
-    categories = categories.reindex(columns=code_columns).fillna(False)
+    categories = categories.reindex(columns=full_code_columns).fillna(False)
     
+    return categories
+
+def process_numeric(numerics):
+
     # num의 누락 계산 
     numerics['월지출비'] = ((numerics['지출_소비지출비'] + numerics['지출_비소비지출(보완)'])/12).round(2)
     numerics['자산대비부채비율'] = (numerics['부채']/numerics['자산']).round(2)
@@ -160,13 +160,24 @@ def encode_inputs(data):
     
     numerics.fillna(numerics.mean(), inplace=True) 
     
-    #합산
+    return numerics
+
+# encode_inputs의 결과 값(pred 값에 따른 이미지 출력)을 dialog 형태(모달창)로 출력하기
+# @st.dialog : encode_inputs 함수 자체를 dialog 형태로 출력하도록 하는 구문.
+@st.dialog("당신의 재무건강은?")
+def encode_inputs(data):
+    df = survey_json_to_df(data)
+    
+    # cat/num 으로 나눈후 정리 
+    categories = process_categorical(df[categorical_columns])
+    numerics = process_numeric(df.drop(categorical_columns, axis=1))
+    
+    # cat/num 재합산
     full_features = pd.concat([numerics, categories], axis=1)
 
-
+    # prediction
     gridsearch = pickle.load(open('data/trained_model.pkl', 'rb'))
     pred = gridsearch.predict(full_features)
-
 
     # pred 값에 따른 이미지 표시
     if pred in [0, 1, 2, 3, 4]:
@@ -294,7 +305,7 @@ def survey_display():
         elif page.current == 1:   
             st.markdown("""### 자산 및 부채 정보 """)
             st.markdown("""귀하의 총 자산을 입력해주세요.(10,000₩. 일 만원 단위로 입력)  """)
-            asset_amount = survey.number_input(
+            survey.number_input(
                 label="자산",
                 label_visibility='collapsed',
                 key='자산',

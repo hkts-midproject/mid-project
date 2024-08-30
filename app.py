@@ -17,16 +17,17 @@ st.set_page_config(
     initial_sidebar_state="expanded")
 
 def main():
-    total_df = load_eda_data()
+    df = load_eda_data()
+    processed_df = load_data()
     with st.sidebar:
         selected = option_menu("MENU", ['HOME', 'EDA', 'ML Model - 소득 분위 예측', 'ML Model - 고객 투자 성향 분석'], 
                                icons=['house', 'file-bar-graph', 'graph-up-arrow', 'graph-up-arrow'], menu_icon="cast", default_index=0)
     if selected == "HOME":
         run_home()  
     elif selected == "EDA":
-        run_eda(total_df)
+        run_eda(df)
     elif selected == "ML Model - 소득 분위 예측":
-        income_run(total_df)
+        income_run(processed_df)
     elif selected == "ML Model - 고객 투자 성향 분석":
         invest_run()
     else:
