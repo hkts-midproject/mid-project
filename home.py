@@ -22,7 +22,7 @@ def run_home():
     st.markdown(
             """
             <a href="https://github.com/hkts-midproject/mid-project.git">
-                <img src="data:image/png;base64,{}" width="25"> </a>""".format( base64.b64encode(open("data/img/github-logo.png", "rb").read()).decode() ), unsafe_allow_html=True,
+                <img src="data:image/png;base64,{}" width="45"> </a>""".format( base64.b64encode(open("data/img/github-logo.png", "rb").read()).decode() ), unsafe_allow_html=True,
             )
     # img = Image.open('data/img/HAN_TOSS_MID_PROJECT.png')
     # url = "https://github.com/hkts-midproject/mid-project.git"
