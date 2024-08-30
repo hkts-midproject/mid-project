@@ -7,6 +7,7 @@ from millify import prettify
 import seaborn as sns
 import matplotlib.pyplot as plt
 from PIL import Image
+import base64
 
 def run_home():
     total_df = load_eda_data()
@@ -18,9 +19,14 @@ def run_home():
                 "##### **본 프로젝트는 '가계 금융복지조사 2023년' 데이터를 이용해 소비자 정보에 따른 소득 구간(금액별)을 예측하고**  \n"
                 "##### **'고객 투자성향분석'결과를 기반으로 '재무건강 진단 서비스'를 구현한 프로젝트입니다.**  \n"
                 )
-    img = Image.open('data/img/HAN_TOSS_MID_PROJECT.png')
-    url = "https://github.com/hkts-midproject/mid-project.git"
-    st.markdown("[![프로젝트 github](data/img/github-logo.png)](https://github.com/hkts-midproject/mid-project.git)")
+    st.markdown(
+            """
+            <a href="https://github.com/hkts-midproject/mid-project.git">
+                <img src="data:image/png;base64,{}" width="25"> </a>""".format( base64.b64encode(open("data/img/github-logo.png", "rb").read()).decode() ), unsafe_allow_html=True,
+            )
+    # img = Image.open('data/img/HAN_TOSS_MID_PROJECT.png')
+    # url = "https://github.com/hkts-midproject/mid-project.git"
+    # st.markdown("[![프로젝트 github](data/img/github-logo.png)](https://github.com/hkts-midproject/mid-project.git)")
     
     st.image(img, width=800)
     
