@@ -20,13 +20,8 @@ def run_home():
                 "##### **- '고객 투자성향분석'결과를 기반으로 '재무건강 진단 서비스'를 구현**  \n"
                 )
     # 이미지에 링크를 연결하는 코드 (import base64 해주어야됨)
-    st.markdown(
-            """
-            <a href="https://github.com/hkts-midproject/mid-project.git">
-                <img src="data:image/png;base64,{}" width="150"></a>
-            """
-                .format( base64.b64encode(open("data/img/github-logo.png", "rb").read()).decode() ), unsafe_allow_html=True,
-            )
+    
+
     # img = Image.open('data/img/HAN_TOSS_MID_PROJECT.png')
     # url = "https://github.com/hkts-midproject/mid-project.git"
     # st.markdown("[![프로젝트 github](data/img/github-logo.png)](https://github.com/hkts-midproject/mid-project.git)")
@@ -43,9 +38,26 @@ def run_home():
     img = Image.open('data/img/팀원소개.png')
     st.image(img, width=700)
 
-    st.markdown("""---""")
+    st.markdown("""#### Team Workspace""")
+    icol1, icol2, _ = st.columns([1, 1, 15])
+    with icol1:
+        st.markdown(
+                """
+                <a href="https://github.com/hkts-midproject/mid-project.git">
+                    <img src="data:image/png;base64,{}" width="50px" style="display: inline-block; border: 1px solid gray; border-radius: 10px; padding: 5px;"></a>
+                """
+                    .format( base64.b64encode(open("data/img/gitfav.ico", "rb").read()).decode() ), unsafe_allow_html=True,
+        )
+    with icol2: 
+        st.markdown(
+                """
+                <a href="https://drive.google.com/drive/folders/1eIuW9YP7RaS0KoCBHMlAyEYVN492yNBQ">
+                    <img src="data:image/png;base64,{}" width="50px" style="display: inline-block; border: 1px solid #f9ab00; border-radius: 10px; padding: 5px;""></a>
+                """
+                    .format( base64.b64encode(open("data/img/favicon.ico", "rb").read()).decode() ), unsafe_allow_html=True,
+                )
 
-
+    st.markdown("---")
     st.markdown(">### 📚 사용데이터\n"
                 "#### [가계금융복지조사(2023년 Data)](https://mdis.kostat.go.kr/ofrData/selectOfrDataDetail.do?survId=1005641&itmDiv=1&nPage=3&itemId=2005&itemNm=%EC%86%8C%EB%93%9D%C2%B7%EC%86%8C%EB%B9%84%C2%B7%EC%9E%90%EC%82%B0)\n"
                 "- **사용자 인적 정보 ( 나이, 결혼, 직업 등)**\n"
@@ -54,5 +66,9 @@ def run_home():
                 "- **소비 (총금액)**  \n"
                 "***  \n"
                 )
+    
+
+   
+
 
     

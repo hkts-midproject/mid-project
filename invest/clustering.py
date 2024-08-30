@@ -12,13 +12,13 @@ def cluster():
         ```
 
 
-        ## 사용 데이터
+        ### 사용 데이터
             - 18095 rows X 74 columns
             - 인적 사항: 나이, 직업, 결혼유무, 가구유형 
             - 금융 정보: 자산, 부채, 소비, 소득 금액 세부 사항
             - 투자 성향: 여유 자금 투자 성향, 금융 자산 투자 방법, 금융 자산 투자시 고려 사항
 
-        ## 분석 Flow
+        ### 분석 Flow
 
         새로운 고객이 어떤 cluster에 포함되는지 확인 후 해당 cluster 기존 고객들의 자산 비중 비율을 보여준다. 
         > *본 연구에서 제안하는 고객 세분화 기법의 전체 프레임워크는 크게 5단계로 구성된다. 
@@ -30,11 +30,6 @@ def cluster():
 
         [참고논문](https://scienceon.kisti.re.kr/srch/selectPORSrchArticle.do?cn=JAKO201808962641880) → 논문 참고하여 고객 세분화 및 cluster 별 고객 성향 파악
 
-        - 인구통계
-        - 저축성향
-        - 소득소비성향
-        - 접촉성향
-        - 대출성향
         """)
     st.subheader("분석 방법")
     st.markdown("""
@@ -44,7 +39,7 @@ def cluster():
                 
         """)
     st.markdown("""
-        ##### Gower Distance 사용
+        #### Gower Distance 사용
         **💡 Gower Distance란?**
                 
             
@@ -72,19 +67,47 @@ def cluster():
                     \end{cases}
                 """
         )
-    
+    st.markdown("---")
     st.subheader("모델 결과")
     st.markdown("##### K-Prototype Clustering")
-    st.markdown("**최종 선택 모델: K-Prototype Clustering with cao-10**")
+    st.markdown("""
+                **최종 선택 모델: K-Prototype Clustering with cao-10**
+
+    **K-Prototype**: 연속형 데이터와 범주형 데이터를 동시에 처리할 수 있는 알고리즘 
+    """)
+
+    st.markdown("""
+    1. 거리계산 방법:
+        - 연속형 범주는 유클리드 거리, 범주형 변수는 해밍 거리로 계산해 결합한다.
+        """)
+    st.latex(
+        r'\text{TotalDistance}(x_i, \mu_k) = \sum_{i \in \text{continuous}} (x_{ij} - \mu_{kj})^2 + \gamma \sum_{i \in \text{categorical}} \delta(x_{ij}, \mu_{kj})'
+    )
+    st.markdown("""
+    2. 클러스터 중심 업데이트:
+        - 데이터 포인트가 가장 가까운 클러스터 K에 할당 후 변수 유형에 따라 다르게 계산한다. 
+        """)
+    l1, l2  = st.columns(2)
+    with l1:
+        st.write("**범주형 변수**")
+        st.latex(
+            r'\mu_{kj} = \frac{1}{|C_k|} \sum_{x_i \in C_k} x_{ij}'
+        )
+    with l2:
+        st.write("**연속형 변수**")
+        st.latex(
+            r'\mu_{kj} = \text{mode}\left(\{ x_{ij} : x_i \in C_k \} \right)'
+        )
+    st.markdown("**결과**")
     c1, c2, c3, c4,c5 = st.columns(5)
-    _, h2, _, h4, _ = st.columns(5)
+    h1, h2, h3, h4, _ = st.columns(5)
 
     with c1:
         st.markdown('cao-5')
         cao5img = Image.open('data/invest/clustering/cao-5.png')
         st.image(cao5img)
     with c2:
-        st.markdown('**⭐cao-10⭐** 최종 선정 모델')
+        st.markdown('**⭐cao-10⭐** ')
         cao10img = Image.open('data/invest/clustering/cao-10.png')
         st.image(cao10img)
     with c3:
@@ -100,13 +123,39 @@ def cluster():
         cao30img = Image.open('data/invest/clustering/cao-30.png')
         st.image(cao30img)
 
-    with h2:
+    with h1:
         st.markdown('huang-10')
         hua10img = Image.open('data/invest/clustering/huang-10.png')
         st.image(hua10img)
+    with h2:
+        st.markdown('huang-15')
+        hua15img = Image.open('data/invest/clustering/huang-15.png')
+        st.image(hua15img)
+    with h3:
+        st.markdown('huang-20')
+        hua20img = Image.open('data/invest/clustering/huang-20.png')
+        st.image(hua20img)
     with h4:
         st.markdown('huang-25')
         hua25img = Image.open('data/invest/clustering/huang-25.png')
         st.image(hua25img)
-    
-    
+    st.markdown("---")
+    st.markdown("##### 클러스터링 실패 케이스")
+    c1, c2 = st.columns(2)
+    with c1: 
+        st.markdown("""
+        **Agglomerative Clustering**
+            
+        - cluster 의 개수가 적을 때 한 cluster 안에 약 18000개 (데이터의 대부분) 이 들어가 있음을 확인했다. 이후 cluster 의 개수를 높여서 확인함에도 성능이 좋지 않았다. 
+                    
+        """)
+        aggimg = Image.open('data/invest/clustering/agglo.png')
+        st.image(aggimg)
+    with c2: 
+        st.markdown("""
+        **HDBSCAN**
+                    
+        - Cluster갯수를 자동으로 선택하는 모델로 갯수와 성능이잘 나오지 않았다.
+        """)
+        hdbimg = Image.open('data/invest/clustering/hdbscan.png')
+        st.image(hdbimg)
